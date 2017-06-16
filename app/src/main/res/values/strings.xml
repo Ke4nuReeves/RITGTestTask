@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">RITGTestTask</string>
+
+    <string name="tab1_name">TAB 1</string>
+    <string name="tab2_name">TAB 2</string>
+    <string name="tab3_name">TAB 3</string>
+    <string name="tab4_name">TAB 4</string>
+    <string name="tab5_name">TAB 5</string>
 </resources>
