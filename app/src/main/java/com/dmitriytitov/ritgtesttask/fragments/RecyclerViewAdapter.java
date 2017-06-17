@@ -1,4 +1,4 @@
-package com.dmitriytitov.ritgtesttask;
+package com.dmitriytitov.ritgtesttask.fragments;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dmitriytitov.ritgtesttask.Country;
+import com.dmitriytitov.ritgtesttask.R;
+
 import java.util.List;
 
 /**
@@ -14,9 +17,9 @@ import java.util.List;
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private List<DataListItem> items;
+    private List<Country> items;
 
-    RecyclerViewAdapter(List<DataListItem> items) {
+    public RecyclerViewAdapter(List<Country> items) {
         this.items = items;
     }
 
@@ -41,9 +44,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         TextView idTextView = (TextView) holder.itemLayout.findViewById(R.id.id_text_view);
-        TextView stringDataTextView = (TextView) holder.itemLayout.findViewById(R.id.string_data_text_view);
+        TextView countryNameTextView = (TextView) holder.itemLayout.findViewById(R.id.country_name_text_view);
+        TextView capitalNameTextView = (TextView) holder.itemLayout.findViewById(R.id.capital_name_text_view);
         idTextView.setText(String.valueOf(items.get(position).getId()));
-        stringDataTextView.setText(items.get(position).getStringData());
+        countryNameTextView.setText(items.get(position).getName());
+        capitalNameTextView.setText(items.get(position).getCapitalName());
     }
 
     @Override

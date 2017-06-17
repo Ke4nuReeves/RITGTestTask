@@ -1,4 +1,4 @@
-package com.dmitriytitov.ritgtesttask;
+package com.dmitriytitov.ritgtesttask.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,8 +15,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
 
     public static final String ID = "_id";
-    public static final String DATA_LIST = "DATA_LIST";
-    public static final String STRING_DATA = "STRING_DATA";
+    public static final String COUNTRY_LIST = "COUNTRY_LIST";
+    public static final String COUNTRY_NAME = "COUNTRY_NAME";
+    public static final String CAPITAL_NAME = "CAPITAL_NAME";
 
     DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -24,17 +25,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + DATA_LIST + " ( "
+        db.execSQL("CREATE TABLE " + COUNTRY_LIST + " ( "
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + STRING_DATA + " TEXT);");
+                + COUNTRY_NAME + " TEXT, "
+                + CAPITAL_NAME + " TEXT);");
 
         ContentValues values = new ContentValues();
-        values.put(STRING_DATA, "AMERICA SUCKS");
+        values.put(COUNTRY_NAME, "Ukraine");
+        values.put(CAPITAL_NAME, "Kiev");
         for (int i = 0; i < 15; i++) {
-            db.insert(DATA_LIST, null, values);
+            db.insert(COUNTRY_LIST, null, values);
         }
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 

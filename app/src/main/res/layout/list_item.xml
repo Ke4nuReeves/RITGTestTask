@@ -8,19 +8,24 @@
         android:id="@+id/id_text_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:gravity="center"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    />
 
     <TextView
-        android:id="@+id/string_data_text_view"
+        android:id="@+id/country_name_text_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:gravity="center_vertical|start"
-        android:paddingLeft="16dp"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/capital_name_text_view"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:gravity="center"
+        />
 
 </LinearLayout>

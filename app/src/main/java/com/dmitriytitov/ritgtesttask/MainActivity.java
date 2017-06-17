@@ -7,6 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.dmitriytitov.ritgtesttask.data.DataLoader;
+import com.dmitriytitov.ritgtesttask.fragments.DataListFragment;
+
 public class MainActivity extends AppCompatActivity{
 
     private SectionsPagerAdapter mSectionsPagerAdapter;

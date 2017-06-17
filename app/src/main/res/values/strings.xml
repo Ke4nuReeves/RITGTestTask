@@ -6,4 +6,7 @@
     <string name="tab3_name">TAB 3</string>
     <string name="tab4_name">TAB 4</string>
     <string name="tab5_name">TAB 5</string>
+    <string name="id_column">Id</string>
+    <string name="country_column">Country</string>
+    <string name="capital_column">Capital</string>
 </resources>
