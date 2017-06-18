@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.dmitriytitov.ritgtesttask.data.DataLoader;
 import com.dmitriytitov.ritgtesttask.fragments.DataListFragment;
 import com.dmitriytitov.ritgtesttask.fragments.MusicFragment;
+import com.dmitriytitov.ritgtesttask.fragments.RegistrationFragment;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -43,8 +44,7 @@ public class MainActivity extends AppCompatActivity{
                 case 3:
                     return new MusicFragment();
                 case 4:
-                    //TODO registration fragment
-                    break;
+                    return new RegistrationFragment();
             }
             return null;
         }
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         //TODO change text to images

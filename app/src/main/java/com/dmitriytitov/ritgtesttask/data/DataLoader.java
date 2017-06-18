@@ -42,7 +42,6 @@ public class DataLoader {
         this.requestType = requestType;
     }
 
-
     public void requestData() {
         switch (requestType) {
             case COMBINED:

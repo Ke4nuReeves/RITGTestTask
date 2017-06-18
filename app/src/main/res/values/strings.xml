@@ -11,4 +11,19 @@
     <string name="capital_column">Capital</string>
     <string name="play_desc">play_button</string>
     <string name="pause_desc">pause_button</string>
+
+    <string name="name_hint">Name</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="pass_repeat_hint">Repeat password</string>
+    <string name="submit_button">Submit</string>
+
+    <string name="enter_name_war">Enter your name</string>
+    <string name="short_name_war">Name length min 4 symbols</string>
+    <string name="enter_email_war">Enter your email</string>
+    <string name="incorrect_email_war">Incorrect email address</string>
+    <string name="enter_pass_war">Enter password</string>
+    <string name="short_pass_war">Password length min 6 symbols</string>
+    <string name="repeat_pass_war">Repeat password</string>
+    <string name="different_pass_war">Different passwords</string>
 </resources>

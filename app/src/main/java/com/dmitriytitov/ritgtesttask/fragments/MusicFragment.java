@@ -21,6 +21,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -87,7 +88,7 @@ public class MusicFragment extends Fragment {
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
                     onPause = true;
                 }
@@ -114,9 +115,15 @@ public class MusicFragment extends Fragment {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            try {
+                response = restTemplate.exchange(Constants.URL.GET_MUSIC,
+                        HttpMethod.GET, entity, byte[].class, "1");
 
-            response = restTemplate.exchange(Constants.URL.GET_MUSIC,
-                    HttpMethod.GET, entity, byte[].class, "1");
+            } catch (RestClientException ex) {
+
+                return false;
+            }
+
             return response.getStatusCode() == HttpStatus.OK;
         }
 
