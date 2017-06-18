@@ -1,5 +1,6 @@
 package com.dmitriytitov.ritgtesttask.data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,7 +8,6 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.dmitriytitov.ritgtesttask.Constants;
@@ -39,28 +39,20 @@ public class DataLoader {
         this.context = context;
         this.recyclerView = recyclerView;
         this.requestType = requestType;
-        //TODO delete initialization here
-        this.countryList = new ArrayList<>();
     }
 
 
     public void requestData() {
         switch (requestType) {
-            /*case COMBINED:
-                new DBSync().execute();
-                break;*/
+            case COMBINED:
+                new SQLiteRequestAfterDBSync().execute();
+                break;
             case HTTP:
                 new HttpRequest().execute();
                 break;
             case SQLITE:
                 new SQLiteRequest().execute();
                 break;
-            default:
-                for (int i = 0; i < 19; i++) {
-                    countryList.add(new Country(i,"Китай", "Гонг-Конг"));
-                }
-                RecyclerViewAdapter rvAdapter = new RecyclerViewAdapter(countryList);
-                recyclerView.setAdapter(rvAdapter);
         }
     }
 
@@ -72,6 +64,7 @@ public class DataLoader {
             ResponseEntity<List<Country>> response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
                     HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>() {});
             countryList = response.getBody();
+
             return null;
         }
 
@@ -82,14 +75,69 @@ public class DataLoader {
         }
     }
 
-    private class DBSync extends AsyncTask<Void,Void,Boolean> {
+    private class SQLiteRequestAfterDBSync extends AsyncTask<Void,Void,Boolean> {
+
+        ContentValues countryValues;
+        List<Country> temp;
+
+        @Override
+        protected void onPreExecute() {
+            countryValues = new ContentValues();
+        }
+
         @Override
         protected Boolean doInBackground(Void... params) {
-            return null;
+            RestTemplate template = new RestTemplate();
+            ResponseEntity<List<Country>> response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
+                    HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>() {});
+            temp = response.getBody();
+
+            SQLiteOpenHelper dbHelper = new DBHelper(context);
+            try{
+                SQLiteDatabase db = dbHelper.getReadableDatabase();
+                for (Country country : temp) {
+                    if (checkOnExisting(db, country.getId())) {
+                        continue;
+                    }
+                    countryValues.put(DBHelper.ID, country.getId());
+                    countryValues.put(DBHelper.COUNTRY_NAME, country.getName());
+                    countryValues.put(DBHelper.CAPITAL_NAME, country.getCapitalName());
+                    db.insert(DBHelper.COUNTRY_LIST, null, countryValues);
+                }
+                db.close();
+
+                return true;
+            } catch (SQLiteException ex) {
+
+                return false;
+            }
+        }
+
+        private boolean checkOnExisting(SQLiteDatabase db, long id) {
+            Cursor cursor = db.query(DBHelper.COUNTRY_LIST, new String[] {DBHelper.ID}, DBHelper.ID + " = " + id,
+                    null, null, null, null, null);
+            int count = cursor.getCount();
+            cursor.close();
+            return count > 0;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(context, "Database unavailable", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                new SQLiteRequest().execute();
+            }
         }
     }
 
     private class SQLiteRequest extends AsyncTask<Void,Void,Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            countryList = new ArrayList<>();
+        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -111,9 +159,10 @@ public class DataLoader {
                 }
                 cursor.close();
                 db.close();
+
                 return true;
             } catch (SQLiteException ex) {
-                Log.d("log", ex.getMessage());
+
                 return false;
             }
         }

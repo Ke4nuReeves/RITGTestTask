@@ -29,13 +29,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COUNTRY_NAME + " TEXT, "
                 + CAPITAL_NAME + " TEXT);");
+        insertData(db, "Россия", "Москва");
+        insertData(db, "Китай", "Пекин");
+        insertData(db, "Япония", "Токио");
+        insertData(db, "США", "Вашингтон");
+    }
 
+    private void insertData(SQLiteDatabase db, String countryName, String capitalName) {
         ContentValues values = new ContentValues();
-        values.put(COUNTRY_NAME, "Ukraine");
-        values.put(CAPITAL_NAME, "Kiev");
-        for (int i = 0; i < 15; i++) {
-            db.insert(COUNTRY_LIST, null, values);
-        }
+        values.put(COUNTRY_NAME, countryName);
+        values.put(CAPITAL_NAME, capitalName);
+        db.insert(COUNTRY_LIST, null, values);
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
