@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.dmitriytitov.ritgtesttask.data.DataLoader;
 import com.dmitriytitov.ritgtesttask.fragments.DataListFragment;
+import com.dmitriytitov.ritgtesttask.fragments.MusicFragment;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -40,8 +41,7 @@ public class MainActivity extends AppCompatActivity{
                 case 2:
                     return createDataListFragment(DataLoader.RequestType.SQLITE);
                 case 3:
-                    //TODO musicfragment
-                    break;
+                    return new MusicFragment();
                 case 4:
                     //TODO registration fragment
                     break;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         //TODO change text to images

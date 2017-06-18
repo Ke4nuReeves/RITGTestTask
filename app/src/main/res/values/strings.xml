@@ -9,4 +9,6 @@
     <string name="id_column">Id</string>
     <string name="country_column">Country</string>
     <string name="capital_column">Capital</string>
+    <string name="play_desc">play_button</string>
+    <string name="pause_desc">pause_button</string>
 </resources>

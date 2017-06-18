@@ -17,6 +17,7 @@ import com.dmitriytitov.ritgtesttask.fragments.RecyclerViewAdapter;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -56,26 +57,37 @@ public class DataLoader {
         }
     }
 
-    private class HttpRequest extends AsyncTask<Void,Void,Void> {
+    private class HttpRequest extends AsyncTask<Void,Void,Boolean> {
 
         @Override
-        protected Void doInBackground(Void... params) {
-            RestTemplate template = new RestTemplate();
-            ResponseEntity<List<Country>> response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
-                    HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>() {});
-            countryList = response.getBody();
+        protected Boolean doInBackground(Void... params) {
+            try {
+                RestTemplate template = new RestTemplate();
+                ResponseEntity<List<Country>> response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>() {
+                        });
+                countryList = response.getBody();
+            } catch (RestClientException ex) {
 
-            return null;
+                return false;
+            }
+
+            return true;
         }
 
         @Override
-        protected void onPostExecute(Void v) {
-            RecyclerViewAdapter rvAdapter = new RecyclerViewAdapter(countryList);
-            recyclerView.setAdapter(rvAdapter);
+        protected void onPostExecute(Boolean success) {
+            if (!success) {
+                Toast toast = Toast.makeText(context, "Connection failed", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                RecyclerViewAdapter rvAdapter = new RecyclerViewAdapter(countryList);
+                recyclerView.setAdapter(rvAdapter);
+            }
         }
     }
 
-    private class SQLiteRequestAfterDBSync extends AsyncTask<Void,Void,Boolean> {
+    private class SQLiteRequestAfterDBSync extends AsyncTask<Void,Void,Exception> {
 
         ContentValues countryValues;
         List<Country> temp;
@@ -86,14 +98,14 @@ public class DataLoader {
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
-            RestTemplate template = new RestTemplate();
-            ResponseEntity<List<Country>> response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
-                    HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>() {});
-            temp = response.getBody();
-
-            SQLiteOpenHelper dbHelper = new DBHelper(context);
+        protected Exception doInBackground(Void... params) {
             try{
+                RestTemplate template = new RestTemplate();
+                ResponseEntity<List<Country>> response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>() {});
+                temp = response.getBody();
+
+                SQLiteOpenHelper dbHelper = new DBHelper(context);
                 SQLiteDatabase db = dbHelper.getReadableDatabase();
                 for (Country country : temp) {
                     if (checkOnExisting(db, country.getId())) {
@@ -106,10 +118,10 @@ public class DataLoader {
                 }
                 db.close();
 
-                return true;
-            } catch (SQLiteException ex) {
+                return null;
+            } catch (SQLiteException|RestClientException ex) {
 
-                return false;
+                return ex;
             }
         }
 
@@ -122,10 +134,15 @@ public class DataLoader {
         }
 
         @Override
-        protected void onPostExecute(Boolean success) {
-            if (!success) {
-                Toast toast = Toast.makeText(context, "Database unavailable", Toast.LENGTH_SHORT);
-                toast.show();
+        protected void onPostExecute(Exception ex) {
+            if (ex != null) {
+                if (ex instanceof SQLiteException) {
+                    Toast toast = Toast.makeText(context, "Database unavailable", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else if (ex instanceof RestClientException) {
+                    Toast toast = Toast.makeText(context, "Connection failed", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             } else {
                 new SQLiteRequest().execute();
             }

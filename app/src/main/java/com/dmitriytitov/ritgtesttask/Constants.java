@@ -9,5 +9,6 @@ public class Constants {
         private static final String HOST = "http://192.168.238.2:8080/";
 
         public static final String GET_COUNTRY_ITEMS = HOST + "data_controller/get_countries";
+        public static final String GET_MUSIC = HOST + "data_controller/get_music";
     }
 }
