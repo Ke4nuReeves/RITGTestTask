@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--basic-->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--registration hints-->
+    <color name="correct_input">#39ac2b</color>
+    <color name="incorrect_input">#ff4e5a</color>
 </resources>

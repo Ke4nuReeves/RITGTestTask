@@ -22,13 +22,14 @@
         android:id="@+id/name_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingLeft="20dp"
-        android:paddingEnd="20dp"
-        android:paddingRight="20dp"
+        android:paddingStart="25dp"
+        android:paddingLeft="25dp"
+        android:paddingEnd="25dp"
+        android:paddingRight="25dp"
         android:layout_marginBottom="10dp"
         android:visibility="invisible"
-        android:textColor="#fa2727"/>
+        android:textColor="@color/incorrect_input"
+        />
 
     <EditText
         android:id="@+id/email_field"
@@ -46,13 +47,13 @@
         android:id="@+id/email_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingLeft="20dp"
-        android:paddingEnd="20dp"
-        android:paddingRight="20dp"
+        android:paddingStart="25dp"
+        android:paddingLeft="25dp"
+        android:paddingEnd="25dp"
+        android:paddingRight="25dp"
         android:layout_marginBottom="10dp"
         android:visibility="invisible"
-        android:textColor="#fa2727"/>
+        android:textColor="@color/incorrect_input"/>
 
     <EditText
         android:id="@+id/password_field"
@@ -70,13 +71,14 @@
         android:id="@+id/password_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingLeft="20dp"
-        android:paddingEnd="20dp"
-        android:paddingRight="20dp"
+        android:paddingStart="25dp"
+        android:paddingLeft="25dp"
+        android:paddingEnd="25dp"
+        android:paddingRight="25dp"
         android:layout_marginBottom="10dp"
         android:visibility="invisible"
-        android:textColor="#fa2727"/>
+        android:textColor="@color/incorrect_input"
+        />
 
     <EditText
         android:id="@+id/repeat_pass_field"
@@ -94,15 +96,17 @@
         android:id="@+id/repeat_pass_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingLeft="20dp"
-        android:paddingEnd="20dp"
-        android:paddingRight="20dp"
+        android:paddingStart="25dp"
+        android:paddingLeft="25dp"
+        android:paddingEnd="25dp"
+        android:paddingRight="25dp"
         android:layout_marginBottom="60dp"
         android:visibility="invisible"
-        android:textColor="#fa2727"/>
+        android:textColor="@color/incorrect_input"
+        />
 
     <Button
+        android:id="@+id/submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/submit_button"/>

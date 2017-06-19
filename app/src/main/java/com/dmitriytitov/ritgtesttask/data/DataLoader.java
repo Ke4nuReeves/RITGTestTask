@@ -16,6 +16,7 @@ import com.dmitriytitov.ritgtesttask.fragments.RecyclerViewAdapter;
 
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -60,9 +61,10 @@ public class DataLoader {
 
         @Override
         protected Boolean doInBackground(Void... params) {
+            ResponseEntity<List<Country>> response;
             try {
                 RestTemplate template = new RestTemplate();
-                ResponseEntity<List<Country>> response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
+                response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>() {
                         });
                 countryList = response.getBody();
@@ -71,7 +73,7 @@ public class DataLoader {
                 return false;
             }
 
-            return true;
+            return response.getStatusCode() == HttpStatus.OK;
         }
 
         @Override
@@ -98,9 +100,11 @@ public class DataLoader {
 
         @Override
         protected Exception doInBackground(Void... params) {
+
             try{
+                ResponseEntity<List<Country>> response;
                 RestTemplate template = new RestTemplate();
-                ResponseEntity<List<Country>> response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
+                response = template.exchange(Constants.URL.GET_COUNTRY_ITEMS,
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<Country>>() {});
                 temp = response.getBody();
 
@@ -117,7 +121,13 @@ public class DataLoader {
                 }
                 db.close();
 
-                return null;
+                if (response.getStatusCode() == HttpStatus.OK) {
+
+                    return null;
+                }
+
+                throw new RestClientException("Not ok");
+
             } catch (SQLiteException|RestClientException ex) {
 
                 return ex;

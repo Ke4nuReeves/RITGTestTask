@@ -24,6 +24,7 @@
     <string name="incorrect_email_war">Incorrect email address</string>
     <string name="enter_pass_war">Enter password</string>
     <string name="short_pass_war">Password length min 6 symbols</string>
-    <string name="repeat_pass_war">Repeat password</string>
+    <string name="repeat_pass_war">Repeat your password</string>
     <string name="different_pass_war">Different passwords</string>
+    <string name="correct_input">OK</string>
 </resources>

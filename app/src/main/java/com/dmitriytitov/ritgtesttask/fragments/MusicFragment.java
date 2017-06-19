@@ -77,6 +77,8 @@ public class MusicFragment extends Fragment {
                                 onPause = false;
                             }
                         } else {
+                            releaseMP();
+                            mediaPlayer = new MediaPlayer();
                             new RequestMusicFile().execute();
                         }
                     }
