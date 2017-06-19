@@ -1,11 +1,13 @@
 package com.dmitriytitov.ritgtesttask;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 import com.dmitriytitov.ritgtesttask.data.DataLoader;
 import com.dmitriytitov.ritgtesttask.fragments.DataListFragment;
@@ -14,18 +16,44 @@ import com.dmitriytitov.ritgtesttask.fragments.RegistrationFragment;
 
 public class MainActivity extends AppCompatActivity{
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private SectionsPagerAdapter sectionsPagerAdapter;
+    private ViewPager viewPager;
+    private int[] tabIcons = {
+            R.drawable.ic_tab_1,
+            R.drawable.ic_tab_2,
+            R.drawable.ic_tab_3,
+            R.drawable.ic_tab_4,
+            R.drawable.ic_tab_5};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(sectionsPagerAdapter);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
     }
+
+
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
+        tabLayout.getTabAt(4).setIcon(tabIcons[4]);
+    }
+
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
         private SectionsPagerAdapter(FragmentManager fm) {
@@ -49,6 +77,7 @@ public class MainActivity extends AppCompatActivity{
             return null;
         }
 
+
         private Fragment createDataListFragment(DataLoader.RequestType requestType) {
             Fragment fragment = new DataListFragment();
             Bundle args = new Bundle();
@@ -57,26 +86,16 @@ public class MainActivity extends AppCompatActivity{
             return fragment;
         }
 
+
         @Override
         public int getCount() {
             return 5;
         }
 
+
         //TODO change text to images
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return getString(R.string.tab1_name);
-                case 1:
-                    return getString(R.string.tab2_name);
-                case 2:
-                    return getString(R.string.tab3_name);
-                case 3:
-                    return getString(R.string.tab4_name);
-                case 4:
-                    return getString(R.string.tab5_name);
-            }
             return null;
         }
     }

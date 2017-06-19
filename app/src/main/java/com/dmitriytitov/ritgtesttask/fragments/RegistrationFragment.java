@@ -4,7 +4,6 @@ package com.dmitriytitov.ritgtesttask.fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -131,12 +130,21 @@ public class RegistrationFragment extends Fragment {
             } else {
                 Toast toast = Toast.makeText(getContext(), "Data sent", Toast.LENGTH_SHORT);
                 toast.show();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.detach(RegistrationFragment.this).attach(RegistrationFragment.this).commit();
+                clearFields();
             }
         }
-    }
 
+        private void clearFields(){
+            nameEditText.setText("");
+            emailEditText.setText("");
+            passEditText.setText("");
+            repeatPassEditText.setText("");
+            nameHint.setVisibility(View.INVISIBLE);
+            emailHint.setVisibility(View.INVISIBLE);
+            passHint.setVisibility(View.INVISIBLE);
+            repeatPassHint.setVisibility(View.INVISIBLE);
+        }
+    }
 
     private boolean allFieldsIsCorrect() {
         return nameIsCorrect & emailIsCorrect & passIsCorrect & repeatPassIsCorrect;
