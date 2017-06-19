@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity{
         }
 
 
-        //TODO change text to images
         @Override
         public CharSequence getPageTitle(int position) {
             return null;
